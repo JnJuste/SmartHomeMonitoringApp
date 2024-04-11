@@ -1,5 +1,5 @@
 import 'package:assignment_sensor/pages/gps_tracker.dart';
-import 'package:assignment_sensor/pages/accelerometer.dart';
+import 'package:assignment_sensor/pages/pedometer.dart';
 import 'package:assignment_sensor/pages/magnetometer.dart';
 import 'package:assignment_sensor/pages/light_sensor.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const GpsTracker(),
     const LightSensor(),
-    const Accelerometer(),
+    const PedometerWidget(),
     const Magnetometer(),
   ];
   @override
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.directions_walk_outlined),
-              label: "Accelerometer",
+              label: "Pedometer",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.compass_calibration),

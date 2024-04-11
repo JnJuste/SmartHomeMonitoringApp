@@ -149,7 +149,7 @@ class _GpsTrackerState extends State<GpsTracker> {
                       ),
                       child: const Text(
                         'Open in Maps',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        style: TextStyle(color: Colors.white, fontSize: 17),
                       ),
                     ),
                   ],

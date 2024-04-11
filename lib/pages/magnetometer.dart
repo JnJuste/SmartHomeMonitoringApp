@@ -46,6 +46,26 @@ class _MagnetometerState extends State<Magnetometer> {
   Widget build(BuildContext context) {
     final degrees = calculatorDegrees(_magneticEvent.x, _magneticEvent.y);
     final angle = 1 * pi / 180 * degrees;
+
+    String direction = 'N';
+    if (degrees >= -22.5 && degrees < 22.5) {
+      direction = 'N';
+    } else if (degrees >= 22.5 && degrees < 67.5) {
+      direction = 'NE';
+    } else if (degrees >= 67.5 && degrees < 112.5) {
+      direction = 'E';
+    } else if (degrees >= 112.5 && degrees < 157.5) {
+      direction = 'SE';
+    } else if (degrees >= 157.5 || degrees < -157.5) {
+      direction = 'S';
+    } else if (degrees >= -157.5 && degrees < -112.5) {
+      direction = 'SW';
+    } else if (degrees >= -112.5 && degrees < -67.5) {
+      direction = 'W';
+    } else if (degrees >= -67.5 && degrees < -22.5) {
+      direction = 'NW';
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -69,7 +89,13 @@ class _MagnetometerState extends State<Magnetometer> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
+            Text(
+              "Direction: $direction",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+            ),
             const SizedBox(height: 30.0),
             // Let's show the compass
             Padding(

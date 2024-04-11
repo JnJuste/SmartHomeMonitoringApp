@@ -9,25 +9,7 @@ class LightSensor extends StatefulWidget {
 }
 
 class _LightSensorState extends State<LightSensor> {
-  bool _hasSensor = false;
-  late Stream<int> _luxStream;
-
-  @override
-  void initState() {
-    super.initState();
-    _initSensor();
-  }
-
-  Future<void> _initSensor() async {
-    _hasSensor = await hasSensor();
-    if (_hasSensor) {
-      _luxStream = luxStream();
-      _luxStream.listen((lux) {
-        setState(() {
-        });
-      });
-    }
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -83,5 +65,5 @@ Stream<int> luxStream() {
   return Stream.periodic(
       Duration(seconds: 1),
       (count) =>
-          count * 10); // For demonstration purposes, return a periodic stream
+          count * 100); // For demonstration purposes, return a periodic stream
 }

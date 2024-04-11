@@ -63,7 +63,8 @@ class _GpsTrackerState extends State<GpsTracker> {
           desiredAccuracy: LocationAccuracy.high);
 
       setState(() {
-        _locationMessage = ' ${position.latitude}, ${position.longitude}';
+        _locationMessage =
+            'Latitude: ${position.latitude}\nLongitude: ${position.longitude}';
       });
     } catch (e) {
       print('Error fetching location: $e');
@@ -91,7 +92,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       print('Error opening maps: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Error opening maps. Please try again later.'),
+          content: Text('Error opening maps. Please try again!'),
         ),
       );
     }

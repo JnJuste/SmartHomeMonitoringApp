@@ -11,7 +11,6 @@ class LightSensor extends StatefulWidget {
 class _LightSensorState extends State<LightSensor> {
   bool _hasSensor = false;
   late Stream<int> _luxStream;
-  int _luxValue = 0;
 
   @override
   void initState() {
@@ -25,7 +24,6 @@ class _LightSensorState extends State<LightSensor> {
       _luxStream = luxStream();
       _luxStream.listen((lux) {
         setState(() {
-          _luxValue = lux;
         });
       });
     }

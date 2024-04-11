@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class LightSensor extends StatefulWidget {
   const LightSensor({super.key});
@@ -8,6 +9,28 @@ class LightSensor extends StatefulWidget {
 }
 
 class _LightSensorState extends State<LightSensor> {
+  bool _hasSensor = false;
+  late Stream<int> _luxStream;
+  int _luxValue = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initSensor();
+  }
+
+  Future<void> _initSensor() async {
+    _hasSensor = await hasSensor();
+    if (_hasSensor) {
+      _luxStream = luxStream();
+      _luxStream.listen((lux) {
+        setState(() {
+          _luxValue = lux;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +42,48 @@ class _LightSensorState extends State<LightSensor> {
           style: TextStyle(color: Colors.white),
         ),
       ),
+      body: Center(
+        child: FutureBuilder<bool>(
+          future: hasSensor(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return const Text('Error');
+            } else {
+              final bool hasSensor = snapshot.data!;
+              if (hasSensor) {
+                return StreamBuilder<int>(
+                  stream: luxStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return const Text('Error');
+                    } else {
+                      return Text('Running on: ${snapshot.data} LUX');
+                    }
+                  },
+                );
+              } else {
+                return const Text("Your device doesn't have a light sensor");
+              }
+            }
+          },
+        ),
+      ),
     );
   }
+}
+
+Future<bool> hasSensor() async {
+  await Future.delayed(const Duration(seconds: 2)); // Simulating a delay
+  return true; // For demonstration purposes, always return true
+}
+
+Stream<int> luxStream() {
+  return Stream.periodic(
+      Duration(seconds: 1),
+      (count) =>
+          count * 10); // For demonstration purposes, return a periodic stream
 }

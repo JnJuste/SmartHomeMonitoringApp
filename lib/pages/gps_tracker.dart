@@ -144,8 +144,7 @@ class _GpsTrackerState extends State<GpsTracker> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        primary: Colors
-                            .blue, // Change this to the blue color of your choice
+                        primary: Colors.blue,
                       ),
                       child: const Text(
                         'Open in Maps',

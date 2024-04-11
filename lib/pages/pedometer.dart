@@ -7,7 +7,7 @@ String formatDate(DateTime d) {
 }
 
 class PedometerWidget extends StatefulWidget {
-  const PedometerWidget({Key? key}) : super(key: key);
+  const PedometerWidget({super.key});
 
   @override
   _PedometerWidgetState createState() => _PedometerWidgetState();
@@ -81,7 +81,7 @@ class _PedometerWidgetState extends State<PedometerWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Steps Taken',
+              'Steps Taken:',
               style: TextStyle(fontSize: 30),
             ),
             Text(
@@ -94,13 +94,13 @@ class _PedometerWidgetState extends State<PedometerWidget> {
               color: Colors.white,
             ),
             const Text(
-              'Pedestrian Status',
+              'Pedestrian Status:',
               style: TextStyle(fontSize: 30),
             ),
             Icon(
-              _status == 'walking'
+              _status == '(walking)'
                   ? Icons.directions_walk
-                  : _status == 'stopped'
+                  : _status == '(stopped)'
                       ? Icons.accessibility_new
                       : Icons.error,
               size: 100,

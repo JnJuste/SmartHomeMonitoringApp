@@ -62,9 +62,12 @@ class _GpsTrackerState extends State<GpsTracker> {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
+      String latitudeDirection = position.latitude >= 0 ? 'N' : 'S';
+      String longitudeDirection = position.longitude >= 0 ? 'E' : 'W';
+
       setState(() {
         _locationMessage =
-            'Latitude: ${position.latitude}\nLongitude: ${position.longitude}';
+            'Latitude: ${position.latitude.abs()} $latitudeDirection\nLongitude: ${position.longitude.abs()} $longitudeDirection';
       });
     } catch (e) {
       print('Error fetching location: $e');

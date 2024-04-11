@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const GpsTracker(),
     const LightSensor(),
-    const PedometerWidget(),
+    const PedometerPage(),
     const Magnetometer(),
   ];
   @override

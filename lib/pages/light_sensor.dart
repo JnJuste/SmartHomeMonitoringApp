@@ -10,10 +10,14 @@ class LightSensor extends StatefulWidget {
 class _LightSensorState extends State<LightSensor> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "Light Sensor Page",
-        style: TextStyle(fontSize: 30),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade900,
+        centerTitle: true,
+        title: const Text(
+          "Light Sensor",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

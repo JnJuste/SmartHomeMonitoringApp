@@ -1,69 +1,113 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:light_sensor/light_sensor.dart';
 
-class LightSensor extends StatefulWidget {
-  const LightSensor({super.key});
+class LightSensorPage extends StatefulWidget {
+  const LightSensorPage({super.key});
 
   @override
-  State<LightSensor> createState() => _LightSensorState();
+  State<LightSensorPage> createState() => _LightSensorPageState();
+  
 }
 
-class _LightSensorState extends State<LightSensor> {
- 
+class _LightSensorPageState extends State<LightSensorPage> {
+  late final StreamSubscription<int> _lightSensorSubscription;
+
+  int _animationValue = 0;
+
+  final Duration _animationDuration = const Duration(seconds: 3);
+
+  final Color _baseColor = Color.fromARGB(255, 255, 255, 255);
+
+  Color _backgroundColor = Colors.white;
+
+  
+
+  // Darkens the given color by a specified amount.
+  Color _darken(Color color, [double amount = .1]) {
+    final hsl = HSLColor.fromColor(color);
+    final double lightness = (hsl.lightness - amount).clamp(0.0, 1.0);
+    return hsl.withLightness(lightness).toColor();
+  }
+
+  
+  @override
+  void initState() {
+    super.initState();
+
+    LightSensor.hasSensor().then((hasSensor) {
+      if (hasSensor) {
+        _lightSensorSubscription = LightSensor.luxStream().listen((lux) {
+          setState(() {
+            _animationValue = lux;
+            _backgroundColor = _darken(_baseColor, 0.5 - lux / 1000);
+          });
+        });
+      } else {
+        print('Device does not have a light sensor');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade900,
-        centerTitle: true,
-        title: const Text(
-          "Light Sensor",
-          style: TextStyle(color: Colors.white),
+        title: Text('Light Sensors'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
+      backgroundColor: _backgroundColor,
       body: Center(
-        child: FutureBuilder<bool>(
-          future: hasSensor(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return const Text('Error');
-            } else {
-              final bool hasSensor = snapshot.data!;
-              if (hasSensor) {
-                return StreamBuilder<int>(
-                  stream: luxStream(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return const Text('Error');
-                    } else {
-                      return Text('Running on: ${snapshot.data} LUX');
-                    }
-                  },
-                );
-              } else {
-                return const Text("Your device doesn't have a light sensor");
-              }
-            }
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Light Level: $_animationValue lux',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: _backgroundColor.computeLuminance() > 0.5
+                    ? Colors.black
+                    : Colors.white,
+              ),
+            ),
+            const SizedBox(height: 20),
+            AnimatedContainer(
+              duration: _animationDuration,
+              width: 20 + _animationValue * 0.5,
+              height: 20 + _animationValue * 0.5,
+              decoration: BoxDecoration(
+                color: _backgroundColor,
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 10,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.lightbulb_outline,
+                  size: 50 + _animationValue * 0.2,
+                  color: _backgroundColor.computeLuminance() > 0.5
+                      ? Colors.black
+                      : Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-Future<bool> hasSensor() async {
-  await Future.delayed(const Duration(seconds: 2)); // Simulating a delay
-  return true; // For demonstration purposes, always return true
-}
-
-Stream<int> luxStream() {
-  return Stream.periodic(
-      Duration(seconds: 1),
-      (count) =>
-          count * 100); // For demonstration purposes, return a periodic stream
-}

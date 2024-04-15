@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-class Magnetometer extends StatefulWidget {
-  const Magnetometer({super.key});
+class MagnetometerPage extends StatefulWidget {
+  const MagnetometerPage({super.key});
 
   @override
-  State<Magnetometer> createState() => _MagnetometerState();
+  State<MagnetometerPage> createState() => _MagnetometerPageState();
 }
 
-class _MagnetometerState extends State<Magnetometer> {
+class _MagnetometerPageState extends State<MagnetometerPage> {
   MagnetometerEvent _magneticEvent = MagnetometerEvent(0, 0, 0);
   StreamSubscription? subscription;
 

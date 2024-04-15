@@ -3,11 +3,12 @@ import 'package:pedometer/pedometer.dart';
 
 class PedometerPage extends StatefulWidget {
   const PedometerPage({super.key});
+
   @override
-  _PedometerPageState createState() => _PedometerPageState();
+  State<PedometerPage> createState() => _PedometerPage();
 }
 
-class _PedometerPageState extends State<PedometerPage> {
+class _PedometerPage extends State<PedometerPage> {
   late Stream<StepCount> _stepCountStream;
   String _steps = '0';
 

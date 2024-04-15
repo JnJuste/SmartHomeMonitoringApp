@@ -21,8 +21,6 @@ class _LightSensorPageState extends State<LightSensorPage> {
 
   Color _backgroundColor = Colors.white;
 
-  
-
   // Darkens the given color by a specified amount.
   Color _darken(Color color, [double amount = .1]) {
     final hsl = HSLColor.fromColor(color);
@@ -30,7 +28,6 @@ class _LightSensorPageState extends State<LightSensorPage> {
     return hsl.withLightness(lightness).toColor();
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -50,16 +47,21 @@ class _LightSensorPageState extends State<LightSensorPage> {
   }
 
   @override
+  void dispose() {
+    _lightSensorSubscription.cancel();
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        title: Text('Light Sensors'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        backgroundColor: Colors.grey.shade900,
+        centerTitle: true,
+        title: const Text(
+          "Light Sensor",
+          style: TextStyle(color: Colors.white),
         ),
       ),
       backgroundColor: _backgroundColor,

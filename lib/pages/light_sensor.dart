@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:light_sensor/light_sensor.dart';
 
 class LightSensorPage extends StatefulWidget {

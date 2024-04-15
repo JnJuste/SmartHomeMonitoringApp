@@ -5,17 +5,26 @@ class PedometerPage extends StatefulWidget {
   const PedometerPage({super.key});
 
   @override
-  State<PedometerPage> createState() => _PedometerPage();
+  State<PedometerPage> createState() => _PedometerPageState();
 }
 
-class _PedometerPage extends State<PedometerPage> {
+class _PedometerPageState extends State<PedometerPage>
+    with SingleTickerProviderStateMixin {
   late Stream<StepCount> _stepCountStream;
   String _steps = '0';
+  late AnimationController _controller;
+  bool _isWalking = false;
 
   @override
   void initState() {
     super.initState();
     startListening();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    )..addListener(() {
+        setState(() {});
+      });
   }
 
   void startListening() {
@@ -27,10 +36,20 @@ class _PedometerPage extends State<PedometerPage> {
     setState(() {
       _steps = event.steps.toString();
     });
+    if (!_controller.isAnimating) {
+      _isWalking = true;
+      _controller.repeat(reverse: true);
+    }
   }
 
   void onError(error) {
     print('Flutter Pedometer Error: $error');
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,15 +67,28 @@ class _PedometerPage extends State<PedometerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.directions_walk,
-              size: 50,
-              color: Colors.blue,
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0.0, _isWalking ? _controller.value * 5 : 0.0),
+                  child: const Icon(
+                    Icons.directions_walk,
+                    size: 50,
+                    color: Colors.blue,
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 20),
             Text(
               'Steps taken: $_steps',
               style: const TextStyle(fontSize: 30),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              _isWalking ? 'Walking' : 'Stopped',
+              style: TextStyle(fontSize: 20, color: Colors.green),
             ),
           ],
         ),

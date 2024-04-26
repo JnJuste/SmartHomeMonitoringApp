@@ -72,7 +72,7 @@ class _MagnetometerPageState extends State<MagnetometerPage> {
         backgroundColor: Colors.grey.shade900,
         centerTitle: true,
         title: const Text(
-          "Compass/Magnetometer",
+          "Compass/Magnetometer Sensor",
           style: TextStyle(color: Colors.white),
         ),
       ),

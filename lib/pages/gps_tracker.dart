@@ -108,7 +108,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
         title: const Text(
-          'GPS Tracker',
+          'GPS Tracker Sensor',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,

@@ -59,7 +59,7 @@ class _PedometerPageState extends State<PedometerPage>
         backgroundColor: Colors.grey.shade900,
         centerTitle: true,
         title: const Text(
-          "Pedometer",
+          "Pedometer Sensor",
           style: TextStyle(color: Colors.white),
         ),
       ),

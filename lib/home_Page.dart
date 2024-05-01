@@ -1,3 +1,4 @@
+import 'package:assignment_sensor/pages/accelerometer.dart';
 import 'package:assignment_sensor/pages/gps_tracker.dart';
 import 'package:assignment_sensor/pages/pedometer.dart';
 import 'package:assignment_sensor/pages/magnetometer.dart';
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     const LightSensorPage(),
     const PedometerPage(),
     const MagnetometerPage(),
+    const MotionDetectorPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,10 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.compass_calibration),
               label: "Magnetometer",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.motion_photos_on),
+              label: "Accelerometer",
             ),
           ],
         ),

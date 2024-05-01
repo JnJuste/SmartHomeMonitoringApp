@@ -8,48 +8,64 @@ class PedometerPage extends StatefulWidget {
   State<PedometerPage> createState() => _PedometerPageState();
 }
 
-class _PedometerPageState extends State<PedometerPage>
-    with SingleTickerProviderStateMixin {
+String formatDate(DateTime d) {
+  return d.toString().substring(0, 19);
+}
+
+class _PedometerPageState extends State<PedometerPage> {
   late Stream<StepCount> _stepCountStream;
-  String _steps = '0';
-  late AnimationController _controller;
-  bool _isWalking = false;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
+  String _status = '?', _steps = '?';
 
   @override
   void initState() {
     super.initState();
-    startListening();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    )..addListener(() {
-        setState(() {});
+    initPlatformState();
+  }
+
+  void onStepCount(StepCount event) {
+    try {
+      print(event);
+      setState(() {
+        _steps = event.steps.toString();
       });
-  }
-
-  void startListening() {
-    _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onData).onError(onError);
-  }
-
-  void onData(StepCount event) {
-    setState(() {
-      _steps = event.steps.toString();
-    });
-    if (!_controller.isAnimating) {
-      _isWalking = true;
-      _controller.repeat(reverse: true);
+    } catch (error) {
+      print('Error in onStepCount: $error');
     }
   }
 
-  void onError(error) {
-    print('Flutter Pedometer Error: $error');
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    print(event);
+    setState(() {
+      _status = event.status;
+    });
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void onPedestrianStatusError(error) {
+    print('onPedestrianStatusError: $error');
+    setState(() {
+      _status = 'Pedestrian Status not available';
+    });
+    print(_status);
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      _steps = 'Step Count not available';
+    });
+  }
+
+  void initPlatformState() {
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
+
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    if (!mounted) return;
   }
 
   @override
@@ -66,30 +82,40 @@ class _PedometerPageState extends State<PedometerPage>
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0.0, _isWalking ? _controller.value * 5 : 0.0),
-                  child: const Icon(
-                    Icons.directions_walk,
-                    size: 50,
-                    color: Colors.blue,
-                  ),
-                );
-              },
+          children: <Widget>[
+            const Text(
+              'Steps Taken',
+              style: TextStyle(fontSize: 30),
             ),
-            const SizedBox(height: 20),
             Text(
-              'Steps taken: $_steps',
-              style: const TextStyle(fontSize: 30),
+              _steps,
+              style: const TextStyle(fontSize: 60),
             ),
-            const SizedBox(height: 10),
-            Text(
-              _isWalking ? 'Walking' : 'Stopped',
-              style: TextStyle(fontSize: 20, color: Colors.green),
+            const Divider(
+              height: 100,
+              thickness: 0,
+              color: Colors.white,
             ),
+            const Text(
+              'Pedestrian Status',
+              style: TextStyle(fontSize: 30),
+            ),
+            Icon(
+              _status == 'walking'
+                  ? Icons.directions_walk
+                  : _status == 'stopped'
+                      ? Icons.accessibility_new
+                      : Icons.error,
+              size: 100,
+            ),
+            Center(
+              child: Text(
+                _status,
+                style: _status == 'walking' || _status == 'stopped'
+                    ? const TextStyle(fontSize: 30)
+                    : const TextStyle(fontSize: 20, color: Colors.red),
+              ),
+            )
           ],
         ),
       ),

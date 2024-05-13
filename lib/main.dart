@@ -1,4 +1,4 @@
-import 'package:assignment_sensor/home_Page.dart';
+import 'package:assignment_sensor/pages/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 String formatDate(DateTime d) {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: OnBoardingScreen(),
     );
   }
 }

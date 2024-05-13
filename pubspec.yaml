@@ -45,6 +45,9 @@ dependencies:
   pedometer: ^4.0.1
   light_sensor: ^3.0.0
   flutter_local_notifications: ^17.1.0
+  smooth_page_indicator: ^1.1.0
+  lottie: ^3.1.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +76,7 @@ flutter:
   assets:
     - assets/compass.png
     - assets/cadrant.png
-  #   - images/a_dot_ham.jpeg
+    - assets/smartHome.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

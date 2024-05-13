@@ -1,6 +1,6 @@
 import 'package:assignment_sensor/pages/accelerometer.dart';
 import 'package:assignment_sensor/pages/gps_tracker.dart';
-import 'package:assignment_sensor/pages/pedometer.dart';
+import 'package:assignment_sensor/pages/location_fencing.dart';
 import 'package:assignment_sensor/pages/magnetometer.dart';
 import 'package:assignment_sensor/pages/light_sensor.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const GpsTracker(),
     const LightSensorPage(),
-    const PedometerPage(),
+    const LocationFencingPage(),
     const MagnetometerPage(),
     const MotionDetectorPage(),
   ];
@@ -51,15 +51,15 @@ class _HomePageState extends State<HomePage> {
               label: "Light Sensor",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.directions_walk_outlined),
-              label: "Pedometer",
+              icon: Icon(Icons.fence_sharp),
+              label: "Location Fence",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.compass_calibration),
               label: "Magnetometer",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.motion_photos_on),
+              icon: Icon(Icons.motion_photos_auto),
               label: "Accelerometer",
             ),
           ],

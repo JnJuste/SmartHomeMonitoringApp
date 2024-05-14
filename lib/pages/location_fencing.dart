@@ -71,7 +71,8 @@ class _LocationFencingPageState extends State<LocationFencingPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-                'Current Location: ${_currentPosition != null ? _currentPosition.latitude.toString() + ', ' + _currentPosition.longitude.toString() : 'Unknown'}'),
+                // ignore: unnecessary_null_comparison
+                'Current Location: ${_currentPosition != null ? '${_currentPosition.latitude}, ${_currentPosition.longitude}' : 'Unknown'}'),
             const SizedBox(height: 20),
             Text('Home: ${_isInsideHome ? 'Inside' : 'Outside'}'),
             const SizedBox(height: 20),

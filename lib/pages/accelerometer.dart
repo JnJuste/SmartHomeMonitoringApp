@@ -12,8 +12,8 @@ class MotionDetectorPage extends StatefulWidget {
 class _MotionDetectorPageState extends State<MotionDetectorPage> {
   bool _isMotionOrVibrationDetected = false;
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  double motionThreshold = 25.0; // Adjusted motion threshold
-  double vibrationThreshold = 15.0; // Adjusted vibration threshold
+  double motionThreshold = 25.0;
+  double vibrationThreshold = 15.0;
   String _lastDetectionTimestamp = '';
 
   @override

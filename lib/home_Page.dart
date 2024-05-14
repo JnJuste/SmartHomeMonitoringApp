@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:assignment_sensor/pages/accelerometer.dart';
 import 'package:assignment_sensor/pages/gps_tracker.dart';
 import 'package:assignment_sensor/pages/location_fencing.dart';
@@ -13,58 +15,127 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  void _navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  ///Controller to Handle Page View qnd initial Page
+  final _pageController = PageController(initialPage: 0);
+
+  ///Controller to handle bottom nav bar and also handles intial page
+  final _controller = NotchBottomBarController(index: 0);
+
+  int maxCount = 5;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
-  final List<Widget> _pages = [
+  /// Widget list
+  final List<Widget> bottomBarPages = [
     const GpsTracker(),
     const LightSensorPage(),
     const LocationFencingPage(),
     const MagnetometerPage(),
     const MotionDetectorPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _navigateBottomBar,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.gps_fixed),
-              label: "GPS Tracker",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.light),
-              label: "Light Sensor",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.fence_sharp),
-              label: "Location Fence",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.compass_calibration),
-              label: "Magnetometer",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.motion_photos_auto),
-              label: "Accelerometer",
-            ),
-          ],
-        ),
+      //appBar: AppBar(title: const Text("Smart Home Monitoring System")),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: List.generate(
+            bottomBarPages.length, (index) => bottomBarPages[index]),
       ),
+      extendBody: true,
+      bottomNavigationBar: (bottomBarPages.length <= maxCount)
+          ? AnimatedNotchBottomBar(
+              /// Provide NotchBottomBarController
+              notchBottomBarController: _controller,
+              color: const Color(0xFF424242),
+              showLabel: false,
+              notchColor: const Color(0xFF424242),
+
+              /// Restart app if youchange removeMargins
+              removeMargins: false,
+              bottomBarWidth: 500,
+              durationInMilliSeconds: 300,
+              bottomBarItems: const [
+                /// GPS Tracker
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.gps_fixed,
+                    color: Colors.grey,
+                  ),
+                  activeItem: Icon(
+                    Icons.gps_fixed,
+                    color: Colors.grey,
+                  ),
+                  itemLabel: 'GPS Tracker',
+                ),
+
+                /// Light Sensor
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.light,
+                    color: Colors.grey,
+                  ),
+                  activeItem: Icon(
+                    Icons.light,
+                    color: Colors.grey,
+                  ),
+                  itemLabel: 'Light Sensor',
+                ),
+
+                /// Location Fence
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.fence_sharp,
+                    color: Colors.grey,
+                  ),
+                  activeItem: Icon(
+                    Icons.fence_sharp,
+                    color: Colors.grey,
+                  ),
+                  itemLabel: 'Location Fence',
+                ),
+
+                /// Magnetometer
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.compass_calibration,
+                    color: Colors.grey,
+                  ),
+                  activeItem: Icon(
+                    Icons.compass_calibration,
+                    color: Colors.grey,
+                  ),
+                  itemLabel: 'Magnetometer',
+                ),
+
+                /// Accelerometer
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.motion_photos_auto,
+                    color: Colors.grey,
+                  ),
+                  activeItem: Icon(
+                    Icons.motion_photos_auto,
+                    color: Colors.grey,
+                  ),
+                  itemLabel: 'Accelerometer',
+                ),
+              ],
+              onTap: (index) {
+                /// Perform Action
+                log('Current selected index $index');
+                _pageController.jumpToPage(index);
+              },
+              kBottomRadius: 10, // Example radius value
+              kIconSize: 10,
+            )
+          : null,
     );
   }
 }

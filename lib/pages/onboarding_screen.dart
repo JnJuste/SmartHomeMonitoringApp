@@ -31,8 +31,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onLastPage = (index == 2);
               });
             },
-            children: [
-              const IntroPage1(),
+            children: const [
+              IntroPage1(),
               IntroPage2(),
               IntroPage3(),
             ],

@@ -77,6 +77,8 @@ flutter:
     - assets/compass.png
     - assets/cadrant.png
     - assets/smartHome.json
+    - assets/smartHome2.json
+    - assets/smartHome3.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

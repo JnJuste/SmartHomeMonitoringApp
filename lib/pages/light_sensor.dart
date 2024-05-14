@@ -7,7 +7,6 @@ class LightSensorPage extends StatefulWidget {
 
   @override
   State<LightSensorPage> createState() => _LightSensorPageState();
-  
 }
 
 class _LightSensorPageState extends State<LightSensorPage> {
@@ -52,12 +51,11 @@ class _LightSensorPageState extends State<LightSensorPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text(
           "Light Sensor",
@@ -111,4 +109,3 @@ class _LightSensorPageState extends State<LightSensorPage> {
     );
   }
 }
-

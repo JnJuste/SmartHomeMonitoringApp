@@ -106,7 +106,7 @@ class _GpsTrackerState extends State<GpsTracker> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.blue,
         title: const Text(
           'GPS Tracker Sensor',
           style: TextStyle(color: Colors.white),

@@ -132,8 +132,8 @@ class _HomePageState extends State<HomePage> {
                 log('Current selected index $index');
                 _pageController.jumpToPage(index);
               },
-              kBottomRadius: 10, // Example radius value
-              kIconSize: 10,
+              kBottomRadius: 25, // Example radius value
+              kIconSize: 25,
             )
           : null,
     );

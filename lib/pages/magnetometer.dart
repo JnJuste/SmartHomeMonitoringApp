@@ -69,7 +69,7 @@ class _MagnetometerPageState extends State<MagnetometerPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text(
           "Compass/Magnetometer Sensor",

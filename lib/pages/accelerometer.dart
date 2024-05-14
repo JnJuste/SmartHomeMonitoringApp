@@ -100,7 +100,7 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.blue,
         title: const Text(
           'Motion Detector/Accelerometer',
           style: TextStyle(color: Colors.white),

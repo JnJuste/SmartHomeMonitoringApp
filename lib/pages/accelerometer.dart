@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -21,6 +22,19 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
     super.initState();
     _initializeSensors();
     _initializeNotifications();
+    _checkAndRequestPermissions();
+  }
+
+  Future<void> _checkAndRequestPermissions() async {
+    // Check if the necessary permissions are granted
+    PermissionStatus status = await Permission.notification.status;
+    if (!status.isGranted) {
+      // Request permissions if they're not granted
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.notification,
+      ].request();
+      print(statuses[Permission.notification]);
+    }
   }
 
   void _initializeSensors() {

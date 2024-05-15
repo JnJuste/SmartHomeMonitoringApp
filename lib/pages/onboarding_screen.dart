@@ -1,7 +1,7 @@
 import 'package:assignment_sensor/home_Page.dart';
-import 'package:assignment_sensor/intro_screens/intro_page1.dart';
-import 'package:assignment_sensor/intro_screens/intro_page2.dart';
-import 'package:assignment_sensor/intro_screens/intro_page3.dart';
+import 'package:assignment_sensor/screens/intro_page1.dart';
+import 'package:assignment_sensor/screens/intro_page2.dart';
+import 'package:assignment_sensor/screens/intro_page3.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

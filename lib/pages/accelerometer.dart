@@ -91,7 +91,8 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
         AndroidNotificationDetails(
       'motion_detection_channel',
       'Motion Detection',
-      channelDescription: 'Notification Channel for Motion and Vibration Detection',
+      channelDescription:
+          'Notification Channel for Motion and Vibration Detection',
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,

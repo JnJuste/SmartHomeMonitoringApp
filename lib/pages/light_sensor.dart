@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:light_sensor/light_sensor.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LightSensorPage extends StatefulWidget {
   const LightSensorPage({super.key});
@@ -34,6 +35,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
   void initState() {
     super.initState();
     _initializeNotifications();
+    _checkAndRequestPermissions();
 
     LightSensor.hasSensor().then((hasSensor) {
       if (hasSensor) {
@@ -53,6 +55,18 @@ class _LightSensorPageState extends State<LightSensorPage> {
         print('Device does not have a light sensor.');
       }
     });
+  }
+
+  Future<void> _checkAndRequestPermissions() async {
+    // Check if the necessary permissions are granted
+    PermissionStatus status = await Permission.notification.status;
+    if (!status.isGranted) {
+      // Request permissions if they're not granted
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.notification,
+      ].request();
+      print(statuses[Permission.notification]);
+    }
   }
 
   Future<void> _initializeNotifications() async {

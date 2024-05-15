@@ -45,10 +45,10 @@ class _LightSensorPageState extends State<LightSensorPage> {
             _backgroundColor = _darken(_baseColor, 0.5 - lux / 1000);
           });
 
-          // Notify user when light level is low
-          if (lux < 200) {
+          // Notify user when light level is high
+          if (lux > 200) {
             _showNotification(
-                'Low Light Level', 'The light level is below 200 lux.');
+                'High Light Level', 'The light level is above 200 lux.');
           }
         });
       } else {

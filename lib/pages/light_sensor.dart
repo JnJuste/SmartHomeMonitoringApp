@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:light_sensor/light_sensor.dart';
 
 class LightSensorPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class LightSensorPage extends StatefulWidget {
 
 class _LightSensorPageState extends State<LightSensorPage> {
   late final StreamSubscription<int> _lightSensorSubscription;
+
+  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 
   int _animationValue = 0;
 
@@ -30,6 +33,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
   @override
   void initState() {
     super.initState();
+    _initializeNotifications();
 
     LightSensor.hasSensor().then((hasSensor) {
       if (hasSensor) {
@@ -38,11 +42,50 @@ class _LightSensorPageState extends State<LightSensorPage> {
             _animationValue = lux;
             _backgroundColor = _darken(_baseColor, 0.5 - lux / 1000);
           });
+
+          // Notify user when light level is low
+          if (lux < 200) {
+            _showNotification(
+                'Low Light Level', 'The light level is below 200 lux.');
+          }
         });
       } else {
-        print('Device does not have a light sensor');
+        print('Device does not have a light sensor.');
       }
     });
+  }
+
+  Future<void> _initializeNotifications() async {
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings(
+            'app_icon'); // Change to your notification icon name
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  Future<void> _showNotification(String title, String body) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'light_sensor_channel',
+      'Light Sensor',
+      channelDescription: 'Notification Channel for Light Sensor',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+      icon: 'app_icon', // Change to your notification icon name
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await _flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      body,
+      platformChannelSpecifics,
+    );
   }
 
   @override

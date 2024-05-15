@@ -61,8 +61,8 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
 
       // Trigger push notification
       _showNotification(
-        'Security Alert!',
-        'Motion or vibration detected at $_lastDetectionTimestamp.',
+        'SECURITY ALERT!',
+        'Motion or Vibration Detected at $_lastDetectionTimestamp.',
       );
     } else {
       setState(() {
@@ -80,7 +80,7 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(
-            'drawable/appimage'); // Change to your notification icon name
+            'app_icon'); // Change to your notification icon name
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -91,12 +91,12 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
         AndroidNotificationDetails(
       'motion_detection_channel',
       'Motion Detection',
-      channelDescription: 'Notification channel for motion detection',
+      channelDescription: 'Notification Channel for Motion and Vibration Detection',
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
-      icon: 'appimage', // Change to your notification icon name
+      icon: 'app_icon', // Change to your notification icon name
     );
 
     const NotificationDetails platformChannelSpecifics =

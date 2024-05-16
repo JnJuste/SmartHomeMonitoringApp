@@ -80,7 +80,7 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(
-            'app_icon'); // Change to your notification icon name
+            '@drawable/app_icon');
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -97,7 +97,7 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
-      icon: 'app_icon', // Change to your notification icon name
+      icon: '@drawable/app_icon',
     );
 
     const NotificationDetails platformChannelSpecifics =

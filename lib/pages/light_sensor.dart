@@ -20,7 +20,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
 
   final Duration _animationDuration = const Duration(seconds: 3);
 
-  final Color _baseColor = Color.fromARGB(255, 255, 255, 255);
+  final Color _baseColor = const Color.fromARGB(255, 255, 255, 255);
 
   Color _backgroundColor = Colors.white;
 
@@ -70,37 +70,38 @@ class _LightSensorPageState extends State<LightSensorPage> {
   }
 
   Future<void> _initializeNotifications() async {
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings(
-            'app_icon'); // Change to your notification icon name
-    const InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
+  _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@drawable/app_icon');
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+  await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+}
 
-  Future<void> _showNotification(String title, String body) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'light_sensor_channel',
-      'Light Sensor',
-      channelDescription: 'Notification Channel for Light Sensor',
-      importance: Importance.max,
-      priority: Priority.high,
-      playSound: true,
-      enableVibration: true,
-      icon: 'app_icon',
-    );
+Future<void> _showNotification(String title, String body) async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'light_sensor_channel',
+    'Light Sensor',
+    channelDescription: 'Notification Channel for Light Sensor',
+    importance: Importance.max,
+    priority: Priority.high,
+    playSound: true,
+    enableVibration: true,
+    // Ensure that the icon parameter references the correct icon resource
+    icon: '@drawable/app_icon',
+  );
 
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      title,
-      body,
-      platformChannelSpecifics,
-    );
-  }
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+  await _flutterLocalNotificationsPlugin.show(
+    0,
+    title,
+    body,
+    platformChannelSpecifics,
+  );
+}
+
 
   @override
   void dispose() {

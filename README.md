@@ -1,6 +1,6 @@
-# assignment_sensor
+# Smart Home Monitoring
 
-A new Flutter project.
+This is an Flutter applicationthat utilizes three sensors commonly found in mobile devices to monitor environmental conditions within a home.
 
 ## Getting Started
 

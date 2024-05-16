@@ -48,7 +48,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
           // Notify user when light level is high
           if (lux > 200) {
             _showNotification(
-                'High Light Level', 'The light level is above 200 lux.');
+                'HIGH LIGHT LEVEL', 'The light level is above 200 lux.');
           }
         });
       } else {
@@ -89,7 +89,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
-      icon: 'app_icon', // Change to your notification icon name
+      icon: 'app_icon',
     );
 
     const NotificationDetails platformChannelSpecifics =

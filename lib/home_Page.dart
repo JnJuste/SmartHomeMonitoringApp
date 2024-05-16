@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:assignment_sensor/pages/accelerometer.dart';
 import 'package:assignment_sensor/pages/gps_tracker.dart';
-import 'package:assignment_sensor/pages/location_fencing.dart';
 import 'package:assignment_sensor/pages/magnetometer.dart';
 import 'package:assignment_sensor/pages/light_sensor.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> bottomBarPages = [
     const GpsTracker(),
     const LightSensorPage(),
-    const LocationFencingPage(),
     const MagnetometerPage(),
     const MotionDetectorPage(),
   ];
@@ -86,19 +84,6 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey,
                   ),
                   itemLabel: 'Light Sensor',
-                ),
-
-                /// Location Fence
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.fence_sharp,
-                    color: Colors.grey,
-                  ),
-                  activeItem: Icon(
-                    Icons.fence_sharp,
-                    color: Colors.grey,
-                  ),
-                  itemLabel: 'Location Fence',
                 ),
 
                 /// Magnetometer

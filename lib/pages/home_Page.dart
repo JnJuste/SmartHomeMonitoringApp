@@ -124,3 +124,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+// api_keys.dart
+// ignore: constant_identifier_names
+const String GOOGLE_MAPS_API_KEY = 'AIzaSyCOJZKI-qRe5R4NCXpIVzVb5i8NSAvMs0Y';

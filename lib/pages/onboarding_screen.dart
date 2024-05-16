@@ -1,4 +1,4 @@
-import 'package:assignment_sensor/home_Page.dart';
+import 'package:assignment_sensor/pages/home_Page.dart';
 import 'package:assignment_sensor/screens/intro_page1.dart';
 import 'package:assignment_sensor/screens/intro_page2.dart';
 import 'package:assignment_sensor/screens/intro_page3.dart';

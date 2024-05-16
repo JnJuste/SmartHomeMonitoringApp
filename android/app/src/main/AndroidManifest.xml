@@ -16,6 +16,10 @@
         android:label="Smart Home Monitoring"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCOJZKI-qRe5R4NCXpIVzVb5i8NSAvMs0Y"/>
+
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

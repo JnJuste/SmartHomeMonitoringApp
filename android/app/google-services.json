@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "617048593807",
+    "project_id": "smart-home-monitoring-e99e1",
+    "storage_bucket": "smart-home-monitoring-e99e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617048593807:android:e1ec9a0cad009b0052a7fa",
+        "android_client_info": {
+          "package_name": "com.example.assignment_sensor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOJZKI-qRe5R4NCXpIVzVb5i8NSAvMs0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

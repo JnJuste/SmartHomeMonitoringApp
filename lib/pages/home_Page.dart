@@ -30,10 +30,10 @@ class _HomePageState extends State<HomePage> {
 
   /// Widget list
   final List<Widget> bottomBarPages = [
-    const GpsTracker(),
     const LightSensorPage(),
     const MagnetometerPage(),
     const MotionDetectorPage(),
+    const GpsTracker(),
   ];
 
   @override
@@ -60,19 +60,6 @@ class _HomePageState extends State<HomePage> {
               bottomBarWidth: 500,
               durationInMilliSeconds: 300,
               bottomBarItems: const [
-                /// GPS Tracker
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.gps_fixed,
-                    color: Colors.grey,
-                  ),
-                  activeItem: Icon(
-                    Icons.gps_fixed,
-                    color: Colors.grey,
-                  ),
-                  itemLabel: 'GPS Tracker',
-                ),
-
                 /// Light Sensor
                 BottomBarItem(
                   inActiveItem: Icon(
@@ -110,6 +97,19 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey,
                   ),
                   itemLabel: 'Accelerometer',
+                ),
+
+                /// GPS Tracker
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.gps_fixed,
+                    color: Colors.grey,
+                  ),
+                  activeItem: Icon(
+                    Icons.gps_fixed,
+                    color: Colors.grey,
+                  ),
+                  itemLabel: 'GPS Tracker',
                 ),
               ],
               onTap: (index) {

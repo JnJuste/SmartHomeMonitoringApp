@@ -15,7 +15,8 @@
     <application
         android:label="Smart Home Monitoring"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:enableOnBackInvokedCallback="true">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyCOJZKI-qRe5R4NCXpIVzVb5i8NSAvMs0Y"/>

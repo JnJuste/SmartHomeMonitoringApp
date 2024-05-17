@@ -28,7 +28,7 @@ class _GpsTrackerState extends State<GpsTracker> {
   StreamSubscription<LocationData>? _locationSubscription;
   bool _notificationSentOutSide = false;
   bool _notificationSentInSide = false;
- 
+
   @override
   void initState() {
     super.initState();
@@ -41,25 +41,22 @@ class _GpsTrackerState extends State<GpsTracker> {
     );
     _createGeofence();
   }
- 
+
   @override
   void dispose() {
     _locationSubscription?.cancel(); // Cancel location updates subscription
     super.dispose();
   }
- 
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.hintColor,
-        title: Text(
-          'Your Location',
-          style: TextStyle(color: theme.primaryColor),
-        ),
-        iconTheme: IconThemeData(
-          color: theme.primaryColor,
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: const Text(
+          "Location Fencing",
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: _currentP == null
@@ -93,7 +90,7 @@ class _GpsTrackerState extends State<GpsTracker> {
             ),
     );
   }
- 
+
   void _triggerInSideNotification() async {
     if (!_notificationSentInSide) {
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -116,7 +113,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       _notificationSentOutSide = false;
     }
   }
- 
+
   void _triggerOutSideNotification() async {
     if (!_notificationSentOutSide) {
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -139,7 +136,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       _notificationSentInSide = false;
     }
   }
- 
+
   void _createGeofence() {
     // Define the boundaries for the larger geofence around Kigali
     List<LatLng> kigaliBoundaries = [
@@ -148,7 +145,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       const LatLng(-1.8980, 30.1300), // Southeast corner
       const LatLng(-1.8980, 30.0274), // Southwest corner
     ];
- 
+
     // Create a polygon to represent the geofence boundaries
     PolygonId polygonId = const PolygonId('kigali');
     Polygon polygon = Polygon(
@@ -158,23 +155,23 @@ class _GpsTrackerState extends State<GpsTracker> {
       strokeColor: Colors.blue,
       fillColor: Colors.blue.withOpacity(0.3),
     );
- 
+
     // Add the polygon to the map
     setState(() {
       _polygons[polygonId] = polygon;
     });
- 
+
     // Start location updates subscription to monitor device's location
     _startLocationUpdates();
   }
- 
+
   void _startLocationUpdates() async {
     _locationSubscription = _locationController.onLocationChanged
         .listen((LocationData currentLocation) {
       // Check if the device's location is inside or outside the geofence
       bool insideGeofence = _isLocationInsideGeofence(
           currentLocation.latitude!, currentLocation.longitude!);
- 
+
       if (insideGeofence && !_notificationSentInSide) {
         _triggerInSideNotification();
         _notificationSentInSide = true;
@@ -186,7 +183,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       }
     });
   }
- 
+
   bool _isLocationInsideGeofence(double latitude, double longitude) {
     // Check if the provided location is inside the geofence boundaries
     bool isInside = false;
@@ -196,7 +193,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       const LatLng(-1.8980, 30.1300),
       const LatLng(-1.8980, 30.0274),
     ];
- 
+
     // Algorithm to determine if a point is inside a polygon
     int i, j = kigaliBoundaries.length - 1;
     for (i = 0; i < kigaliBoundaries.length; i++) {
@@ -220,7 +217,7 @@ class _GpsTrackerState extends State<GpsTracker> {
     }
     return isInside;
   }
- 
+
   Future<void> _cameraToPosition(LatLng pos) async {
     final GoogleMapController controller = await _mapController.future;
     CameraPosition _newCameraPosition = CameraPosition(
@@ -231,11 +228,11 @@ class _GpsTrackerState extends State<GpsTracker> {
       CameraUpdate.newCameraPosition(_newCameraPosition),
     );
   }
- 
+
   Future<void> getLocationUpdates() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
- 
+
     _serviceEnabled = await _locationController.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await _locationController.requestService();
@@ -243,7 +240,7 @@ class _GpsTrackerState extends State<GpsTracker> {
         return;
       }
     }
- 
+
     _permissionGranted = await _locationController.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _locationController.requestPermission();
@@ -251,32 +248,32 @@ class _GpsTrackerState extends State<GpsTracker> {
         return;
       }
     }
- 
+
     _locationSubscription = _locationController.onLocationChanged
         .listen((LocationData currentLocation) {
       if (currentLocation.latitude != null &&
           currentLocation.longitude != null) {
         LatLng newLocation =
             LatLng(currentLocation.latitude!, currentLocation.longitude!);
- 
+
         // Update the marker to the new location
         updateMarkerAndCircle(newLocation);
- 
+
         // Optionally, keep track of the path by adding to your polyline
         addLocationToPolyline(newLocation);
- 
+
         _cameraToPosition(newLocation);
       }
     });
   }
- 
+
   void updateMarkerAndCircle(LatLng newLocation) {
     setState(() {
       _currentP = newLocation;
       // Update your marker or create a new one if needed
     });
   }
- 
+
   void addLocationToPolyline(LatLng newLocation) {
     setState(() {
       // Check if polyline exists, if not create one
@@ -297,7 +294,7 @@ class _GpsTrackerState extends State<GpsTracker> {
       }
     });
   }
- 
+
   Future<List<LatLng>> getPolylinePoints() async {
     List<LatLng> polylineCoordinates = [];
     PolylinePoints polylinePoints = PolylinePoints();
@@ -316,7 +313,7 @@ class _GpsTrackerState extends State<GpsTracker> {
     }
     return polylineCoordinates;
   }
- 
+
   void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async {
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(

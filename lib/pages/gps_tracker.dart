@@ -19,7 +19,7 @@ class _GpsTrackerState extends State<GpsTracker> {
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
   LatLng _kigaliCenter =
-      LatLng(-1.9441, 30.0619); // Coordinates for Kigali center
+      const LatLng(-1.9441, 30.0619); // Coordinates for Kigali center
   static const LatLng _pGooglePlex = LatLng(37.4223, -122.0848);
   static const LatLng _pApplePark = LatLng(37.3346, -122.0090);
   LatLng? _currentP;
@@ -76,15 +76,15 @@ class _GpsTrackerState extends State<GpsTracker> {
               polygons: Set<Polygon>.of(_polygons.values),
               markers: {
                 Marker(
-                  markerId: MarkerId("_currentLocation"),
+                  markerId: const MarkerId("_currentLocation"),
                   icon: BitmapDescriptor.defaultMarker,
                   position: _currentP!,
                 ),
-                Marker(
+                const Marker(
                     markerId: MarkerId("_sourceLocation"),
                     icon: BitmapDescriptor.defaultMarker,
                     position: _pGooglePlex),
-                Marker(
+                const Marker(
                     markerId: MarkerId("_destionationLocation"),
                     icon: BitmapDescriptor.defaultMarker,
                     position: _pApplePark)
@@ -143,14 +143,14 @@ class _GpsTrackerState extends State<GpsTracker> {
   void _createGeofence() {
     // Define the boundaries for the larger geofence around Kigali
     List<LatLng> kigaliBoundaries = [
-      LatLng(-1.9740, 30.0274), // Northwest corner
-      LatLng(-1.9740, 30.1300), // Northeast corner
-      LatLng(-1.8980, 30.1300), // Southeast corner
-      LatLng(-1.8980, 30.0274), // Southwest corner
+      const LatLng(-1.9740, 30.0274), // Northwest corner
+      const LatLng(-1.9740, 30.1300), // Northeast corner
+      const LatLng(-1.8980, 30.1300), // Southeast corner
+      const LatLng(-1.8980, 30.0274), // Southwest corner
     ];
  
     // Create a polygon to represent the geofence boundaries
-    PolygonId polygonId = PolygonId('kigali');
+    PolygonId polygonId = const PolygonId('kigali');
     Polygon polygon = Polygon(
       polygonId: polygonId,
       points: kigaliBoundaries,
@@ -191,10 +191,10 @@ class _GpsTrackerState extends State<GpsTracker> {
     // Check if the provided location is inside the geofence boundaries
     bool isInside = false;
     List<LatLng> kigaliBoundaries = [
-      LatLng(-1.9740, 30.0274),
-      LatLng(-1.9740, 30.1300),
-      LatLng(-1.8980, 30.1300),
-      LatLng(-1.8980, 30.0274),
+      const LatLng(-1.9740, 30.0274),
+      const LatLng(-1.9740, 30.1300),
+      const LatLng(-1.8980, 30.1300),
+      const LatLng(-1.8980, 30.0274),
     ];
  
     // Algorithm to determine if a point is inside a polygon
@@ -280,16 +280,16 @@ class _GpsTrackerState extends State<GpsTracker> {
   void addLocationToPolyline(LatLng newLocation) {
     setState(() {
       // Check if polyline exists, if not create one
-      if (polylines.containsKey(PolylineId("path"))) {
-        final polyline = polylines[PolylineId("path")]!;
+      if (polylines.containsKey(const PolylineId("path"))) {
+        final polyline = polylines[const PolylineId("path")]!;
         final updatedPoints = List<LatLng>.from(polyline.points)
           ..add(newLocation);
-        polylines[PolylineId("path")] =
+        polylines[const PolylineId("path")] =
             polyline.copyWith(pointsParam: updatedPoints);
       } else {
         // Create new polyline if it doesn't exist
-        polylines[PolylineId("path")] = Polyline(
-          polylineId: PolylineId("path"),
+        polylines[const PolylineId("path")] = Polyline(
+          polylineId: const PolylineId("path"),
           color: Colors.blue,
           points: [newLocation],
           width: 5,
@@ -318,7 +318,7 @@ class _GpsTrackerState extends State<GpsTracker> {
   }
  
   void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id,
         color: Colors.black,

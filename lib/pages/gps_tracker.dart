@@ -1,30 +1,32 @@
 import 'dart:async';
-import 'package:assignment_sensor/main.dart';
-import 'package:assignment_sensor/pages/home_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+// Initialize local notifications plugin
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 class GpsTracker extends StatefulWidget {
   const GpsTracker({super.key});
 
   @override
-  _GpsTrackerState createState() => _GpsTrackerState();
+  State<GpsTracker> createState() => _GpsTrackerState();
 }
 
 class _GpsTrackerState extends State<GpsTracker> {
-  Location _locationController = Location();
+  final Location _locationController = Location();
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
-  LatLng _kigaliCenter =
+  final LatLng _kigaliCenter =
       const LatLng(-1.9441, 30.0619); // Coordinates for Kigali center
   static const LatLng _pGooglePlex = LatLng(37.4223, -122.0848);
   static const LatLng _pApplePark = LatLng(37.3346, -122.0090);
   LatLng? _currentP;
   Map<PolylineId, Polyline> polylines = {};
-  Map<PolygonId, Polygon> _polygons = {};
+  final Map<PolygonId, Polygon> _polygons = {};
   StreamSubscription<LocationData>? _locationSubscription;
   bool _notificationSentOutSide = false;
   bool _notificationSentInSide = false;
@@ -32,6 +34,7 @@ class _GpsTrackerState extends State<GpsTracker> {
   @override
   void initState() {
     super.initState();
+    _initializeNotifications();
     getLocationUpdates().then(
       (_) => {
         getPolylinePoints().then((coordinates) => {
@@ -46,6 +49,16 @@ class _GpsTrackerState extends State<GpsTracker> {
   void dispose() {
     _locationSubscription?.cancel(); // Cancel location updates subscription
     super.dispose();
+  }
+
+  void _initializeNotifications() {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
   @override
@@ -299,11 +312,12 @@ class _GpsTrackerState extends State<GpsTracker> {
     List<LatLng> polylineCoordinates = [];
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      GOOGLE_MAPS_API_KEY,
+      'AIzaSyDMZQjVDaIRAl8Ov_IRmAwcq5W-4tMFMlc',
       PointLatLng(_pGooglePlex.latitude, _pGooglePlex.longitude),
       PointLatLng(_pApplePark.latitude, _pApplePark.longitude),
       travelMode: TravelMode.driving,
     );
+
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));

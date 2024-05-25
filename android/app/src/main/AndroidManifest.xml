@@ -19,7 +19,7 @@
         android:enableOnBackInvokedCallback="true">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyCOJZKI-qRe5R4NCXpIVzVb5i8NSAvMs0Y"/>
+               android:value="AIzaSyDMZQjVDaIRAl8Ov_IRmAwcq5W-4tMFMlc"/>
 
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver" android:exported="false">
             <intent-filter>

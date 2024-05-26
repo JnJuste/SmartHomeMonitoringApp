@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:assignment_sensor/pages/accelerometer.dart';
-import 'package:assignment_sensor/pages/gps_tracker.dart';
+import 'package:assignment_sensor/pages/location_fence.dart';
 import 'package:assignment_sensor/pages/magnetometer.dart';
 import 'package:assignment_sensor/pages/light_sensor.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     const LightSensorPage(),
     const MagnetometerPage(),
     const MotionDetectorPage(),
-    const GpsTracker(),
+    const LocationFencePage(),
   ];
 
   @override
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     Icons.gps_fixed,
                     color: Colors.grey,
                   ),
-                  itemLabel: 'GPS Tracker',
+                  itemLabel: 'Location Fencing',
                 ),
               ],
               onTap: (index) {

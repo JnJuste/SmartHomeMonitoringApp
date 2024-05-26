@@ -9,14 +9,14 @@ import 'package:location/location.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-class GpsTracker extends StatefulWidget {
-  const GpsTracker({super.key});
+class LocationFencePage extends StatefulWidget {
+  const LocationFencePage({super.key});
 
   @override
-  State<GpsTracker> createState() => _GpsTrackerState();
+  State<LocationFencePage> createState() => _LocationFencePageState();
 }
 
-class _GpsTrackerState extends State<GpsTracker> {
+class _LocationFencePageState extends State<LocationFencePage> {
   final Location _locationController = Location();
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
@@ -74,7 +74,14 @@ class _GpsTrackerState extends State<GpsTracker> {
       ),
       body: _currentP == null
           ? const Center(
-              child: Text("Loading..."),
+              child: Text(
+                "Wait, Google Map is loading...",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
             )
           : GoogleMap(
               onMapCreated: ((GoogleMapController controller) =>

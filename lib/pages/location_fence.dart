@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:assignment_sensor/charts/location_fencing_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -71,6 +72,22 @@ class _LocationFencePageState extends State<LocationFencePage> {
           "Location Fencing",
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LocationFencingChart()),
+              );
+            },
+            child: const Text(
+              "Chart",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          const Icon(Icons.arrow_forward, color: Colors.black),
+        ],
       ),
       body: _currentP == null
           ? const Center(

@@ -1,3 +1,4 @@
+import 'package:assignment_sensor/charts/motion_detection_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -16,6 +17,8 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
   double motionThreshold = 25.0;
   double vibrationThreshold = 15.0;
   String _lastDetectionTimestamp = '';
+  List<int> motionCounts =
+      List<int>.filled(7, 0); // List to store counts for each day of the week
 
   @override
   void initState() {
@@ -26,10 +29,8 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
   }
 
   Future<void> _checkAndRequestPermissions() async {
-    // Check if the necessary permissions are granted
     PermissionStatus status = await Permission.notification.status;
     if (!status.isGranted) {
-      // Request permissions if they're not granted
       Map<Permission, PermissionStatus> statuses = await [
         Permission.notification,
       ].request();
@@ -54,12 +55,13 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
       final DateTime now = DateTime.now();
       final formattedTimestamp =
           '${now.year}-${_twoDigits(now.month)}-${_twoDigits(now.day)} ${_twoDigits(now.hour)}:${_twoDigits(now.minute)}';
+
       setState(() {
         _isMotionOrVibrationDetected = true;
         _lastDetectionTimestamp = formattedTimestamp;
+        motionCounts[now.weekday % 7]++; // Increment count for the current day
       });
 
-      // Trigger push notification
       _showNotification(
         'SECURITY ALERT!',
         'Motion or Vibration Detected at $_lastDetectionTimestamp.',
@@ -116,10 +118,26 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: const Text(
-          'Motion Detector/Accelerometer',
+          'Motion Detector',
           style: TextStyle(color: Colors.white),
         ),
-        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        MotionDetectionChart(motionCounts: motionCounts)),
+              );
+            },
+            child: const Text(
+              "Chart",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          const Icon(Icons.arrow_forward, color: Colors.black),
+        ],
       ),
       body: Center(
         child: Column(

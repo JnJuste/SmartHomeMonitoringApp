@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:assignment_sensor/charts/light_sensor_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:light_sensor/light_sensor.dart';
@@ -70,38 +71,37 @@ class _LightSensorPageState extends State<LightSensorPage> {
   }
 
   Future<void> _initializeNotifications() async {
-  _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/app_icon');
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-  await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-}
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/app_icon');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
 
-Future<void> _showNotification(String title, String body) async {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
-    'light_sensor_channel',
-    'Light Sensor',
-    channelDescription: 'Notification Channel for Light Sensor',
-    importance: Importance.max,
-    priority: Priority.high,
-    playSound: true,
-    enableVibration: true,
-    // Ensure that the icon parameter references the correct icon resource
-    icon: '@mipmap/app_icon',
-  );
+  Future<void> _showNotification(String title, String body) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'light_sensor_channel',
+      'Light Sensor',
+      channelDescription: 'Notification Channel for Light Sensor',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+      // Ensure that the icon parameter references the correct icon resource
+      icon: '@mipmap/app_icon',
+    );
 
-  const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
-  await _flutterLocalNotificationsPlugin.show(
-    0,
-    title,
-    body,
-    platformChannelSpecifics,
-  );
-}
-
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await _flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      body,
+      platformChannelSpecifics,
+    );
+  }
 
   @override
   void dispose() {
@@ -114,11 +114,25 @@ Future<void> _showNotification(String title, String body) async {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        centerTitle: true,
         title: const Text(
           "Light Sensor",
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LightChart()),
+              );
+            },
+            child: const Text(
+              "Chart",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          const Icon(Icons.arrow_forward, color: Colors.black),
+        ],
       ),
       backgroundColor: _backgroundColor,
       body: Center(
@@ -126,7 +140,7 @@ Future<void> _showNotification(String title, String body) async {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Light Level: $_animationValue lux',
+              'Light Level: $_animationValue Lux',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

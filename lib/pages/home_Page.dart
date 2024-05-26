@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: const Text("Smart Home Monitoring System")),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                   itemLabel: 'Accelerometer',
                 ),
 
-                /// GPS Tracker
+                /// Location Fencing
                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.gps_fixed,
@@ -117,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                 log('Current selected index $index');
                 _pageController.jumpToPage(index);
               },
-              kBottomRadius: 25, // Example radius value
+              kBottomRadius: 25,
               kIconSize: 25,
             )
           : null,

@@ -17,8 +17,6 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
   double motionThreshold = 25.0;
   double vibrationThreshold = 15.0;
   String _lastDetectionTimestamp = '';
-  List<int> motionCounts =
-      List<int>.filled(7, 0); // List to store counts for each day of the week
 
   @override
   void initState() {
@@ -48,18 +46,16 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
     });
   }
 
+  List<Map<DateTime, double>> motionDetectionData = [];
+
   void _handleMotionAndVibration(dynamic event) {
     double totalAcceleration = event.x.abs() + event.y.abs() + event.z.abs();
-    if (totalAcceleration > motionThreshold ||
-        totalAcceleration > vibrationThreshold) {
+    if (totalAcceleration > motionThreshold || totalAcceleration > vibrationThreshold) {
       final DateTime now = DateTime.now();
-      final formattedTimestamp =
-          '${now.year}-${_twoDigits(now.month)}-${_twoDigits(now.day)} ${_twoDigits(now.hour)}:${_twoDigits(now.minute)}';
-
       setState(() {
         _isMotionOrVibrationDetected = true;
-        _lastDetectionTimestamp = formattedTimestamp;
-        motionCounts[now.weekday % 7]++; // Increment count for the current day
+        _lastDetectionTimestamp = '${now.year}-${_twoDigits(now.month)}-${_twoDigits(now.day)} ${_twoDigits(now.hour)}:${_twoDigits(now.minute)}';
+        motionDetectionData.add({now: totalAcceleration});
       });
 
       _showNotification(
@@ -127,8 +123,10 @@ class _MotionDetectorPageState extends State<MotionDetectorPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        MotionDetectionChart(motionCounts: motionCounts)),
+                  builder: (context) => MotionDetectionChart(
+                    motionDetectionData: motionDetectionData,
+                  ),
+                ),
               );
             },
             child: const Text(

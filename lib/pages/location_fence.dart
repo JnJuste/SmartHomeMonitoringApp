@@ -141,8 +141,8 @@ class _LocationFencePageState extends State<LocationFencePage> {
           NotificationDetails(android: androidPlatformChannelSpecifics);
       await flutterLocalNotificationsPlugin.show(
         0,
-        'Hello!',
-        'Inside Geographical Boundaries of Kigali',
+        'LOCATION GEOFENCING!',
+        'You are inside of the geographical boundaries of Kigalis',
         platformChannelSpecifics,
       );
       print('Inside geofence notification sent');
@@ -164,8 +164,8 @@ class _LocationFencePageState extends State<LocationFencePage> {
           NotificationDetails(android: androidPlatformChannelSpecifics);
       await flutterLocalNotificationsPlugin.show(
         0,
-        'Hello!',
-        'Outside Geographical Boundaries of Kigali',
+        'LOCATION GEOFENCING!',
+        'You are outside of the geographical boundaries of Kigali',
         platformChannelSpecifics,
       );
       print('Outside geofence notification sent');

@@ -2,15 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class MotionDetectionChart extends StatefulWidget {
-  final List<int> motionCounts;
+  final List<Map<DateTime, double>> motionDetectionData;
 
-  const MotionDetectionChart({super.key, required this.motionCounts});
+  const MotionDetectionChart({super.key, required this.motionDetectionData});
 
   @override
   State<MotionDetectionChart> createState() => _MotionDetectionChartState();
 }
 
 class _MotionDetectionChartState extends State<MotionDetectionChart> {
+  List<FlSpot> _generateSpots() {
+    List<FlSpot> spots = [];
+    for (int i = 0; i < widget.motionDetectionData.length; i++) {
+      double motionValue = widget.motionDetectionData[i].values.first;
+      spots.add(FlSpot(i.toDouble(), motionValue));
+    }
+    return spots;
+  }
+
+  String _formatTimestamp(DateTime timestamp) {
+    return '${_twoDigits(timestamp.hour)}:${_twoDigits(timestamp.minute)}';
+  }
+
+  String _twoDigits(int n) {
+    if (n >= 10) return '$n';
+    return '0$n';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,59 +40,108 @@ class _MotionDetectionChartState extends State<MotionDetectionChart> {
         ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BarChart(
-            BarChartData(
-              alignment: BarChartAlignment.spaceAround,
-              barGroups: _getBarGroups(),
-              borderData: FlBorderData(show: false),
-              titlesData: FlTitlesData(
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: true, reservedSize: 28),
-                ),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: _getBottomTitles,
-                    reservedSize: 28,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: LineChart(
+          LineChartData(
+            gridData: FlGridData(
+              show: true,
+              drawHorizontalLine: true,
+              getDrawingHorizontalLine: (value) {
+                return FlLine(
+                  color: Colors.grey.withOpacity(0.3),
+                  strokeWidth: 1,
+                );
+              },
+              getDrawingVerticalLine: (value) {
+                return const FlLine(
+                  color: Colors.transparent,
+                  strokeWidth: 0,
+                );
+              },
+            ),
+            titlesData: FlTitlesData(
+              leftTitles: AxisTitles(
+                axisNameWidget: const Text(
+                  'Detection Number',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
+                ),
+                axisNameSize: 30,
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                      '${value.toInt()}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    );
+                  },
+                  reservedSize: 30,
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                axisNameWidget: const Text(
+                  'Time',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                axisNameSize: 30,
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    int index = value.toInt();
+                    if (index < widget.motionDetectionData.length) {
+                      DateTime timestamp =
+                          widget.motionDetectionData[index].keys.first;
+                      String time = _formatTimestamp(timestamp);
+                      return Text(
+                        time,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      );
+                    }
+                    return const Text('');
+                  },
+                  reservedSize: 30,
                 ),
               ),
             ),
+            borderData: FlBorderData(
+              show: true,
+              border:
+                  Border.all(color: Colors.black.withOpacity(0.1), width: 1),
+            ),
+            lineBarsData: [
+              LineChartBarData(
+                spots: _generateSpots(),
+                isCurved: true,
+                barWidth: 5,
+                color: Colors.pinkAccent,
+                belowBarData: BarAreaData(
+                  show: true,
+                  color: Colors.pinkAccent.withOpacity(0.3),
+                ),
+                dotData: const FlDotData(
+                  show: false,
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  Widget _getBottomTitles(double value, TitleMeta meta) {
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    int today = DateTime.now()
-        .weekday; // This will give a number from 1 (Monday) to 7 (Sunday)
-    int index = (value.toInt() + today - 1) %
-        days.length; // Adjust the index based on the current day
-    String text = days[index];
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child:
-          Text(text, style: const TextStyle(color: Colors.black, fontSize: 14)),
-    );
-  }
-
-  List<BarChartGroupData> _getBarGroups() {
-    return List.generate(widget.motionCounts.length, (index) {
-      return BarChartGroupData(
-        x: index,
-        barRods: [
-          BarChartRodData(
-            toY: widget.motionCounts[index].toDouble(),
-            color: Colors.blue,
-            width: 15,
-          ),
-        ],
-      );
-    });
   }
 }

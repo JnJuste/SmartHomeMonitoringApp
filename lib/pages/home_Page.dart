@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import 'package:assignment_sensor/pages/accelerometer.dart';
+import 'package:assignment_sensor/pages/motion_detection.dart';
 import 'package:assignment_sensor/pages/location_fence.dart';
 import 'package:assignment_sensor/pages/magnetometer.dart';
 import 'package:assignment_sensor/pages/light_sensor.dart';

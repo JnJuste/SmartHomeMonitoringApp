@@ -14,18 +14,12 @@ class LightSensorPage extends StatefulWidget {
 
 class _LightSensorPageState extends State<LightSensorPage> {
   late final StreamSubscription<int> _lightSensorSubscription;
-
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-
   int _animationValue = 0;
-
   final Duration _animationDuration = const Duration(seconds: 3);
-
   final Color _baseColor = const Color.fromARGB(255, 255, 255, 255);
-
   Color _backgroundColor = Colors.white;
 
-  // Darkens the given color by a specified amount.
   Color _darken(Color color, [double amount = .1]) {
     final hsl = HSLColor.fromColor(color);
     final double lightness = (hsl.lightness - amount).clamp(0.0, 1.0);
@@ -46,10 +40,10 @@ class _LightSensorPageState extends State<LightSensorPage> {
             _backgroundColor = _darken(_baseColor, 0.5 - lux / 1000);
           });
 
-          // Notify user when light level is high
+          LightSensorData().addReading(lux); // Store the reading
+
           if (lux > 200) {
-            _showNotification(
-                'HIGH LIGHT LEVEL', 'The light level is above 200 lux.');
+            _showNotification('HIGH LIGHT LEVEL', 'The light level is above 200 lux.');
           }
         });
       } else {
@@ -59,13 +53,9 @@ class _LightSensorPageState extends State<LightSensorPage> {
   }
 
   Future<void> _checkAndRequestPermissions() async {
-    // Check if the necessary permissions are granted
     PermissionStatus status = await Permission.notification.status;
     if (!status.isGranted) {
-      // Request permissions if they're not granted
-      Map<Permission, PermissionStatus> statuses = await [
-        Permission.notification,
-      ].request();
+      Map<Permission, PermissionStatus> statuses = await [Permission.notification].request();
       print(statuses[Permission.notification]);
     }
   }
@@ -89,7 +79,6 @@ class _LightSensorPageState extends State<LightSensorPage> {
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
-      // Ensure that the icon parameter references the correct icon resource
       icon: '@mipmap/app_icon',
     );
 

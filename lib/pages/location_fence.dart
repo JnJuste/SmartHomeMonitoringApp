@@ -54,7 +54,7 @@ class _LocationFencePageState extends State<LocationFencePage> {
 
   void _initializeNotifications() {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('ic_launcher');
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,

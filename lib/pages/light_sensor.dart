@@ -63,7 +63,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
   Future<void> _initializeNotifications() async {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/app_icon');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -79,7 +79,7 @@ class _LightSensorPageState extends State<LightSensorPage> {
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
-      icon: '@mipmap/app_icon',
+      icon: '@mipmap/ic_launcher',
     );
 
     const NotificationDetails platformChannelSpecifics =

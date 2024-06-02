@@ -1,6 +1,6 @@
 # Smart Home Monitoring
 
-This is an Flutter applicationthat utilizes three sensors commonly found in mobile devices to monitor environmental conditions within a home.
+This is an Flutter application that utilizes four sensors commonly found in mobile devices to monitor environmental conditions within a home, such as GeoLocation Fencing, Motion Detection and Ambient Light sensors.
 
 ## Getting Started
 
